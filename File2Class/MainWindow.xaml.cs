@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.IO;
 
 namespace File2Class
 {
@@ -20,34 +10,45 @@ namespace File2Class
     /// </summary>
     public partial class MainWindow : Window
     {
-        string _filePath;
-        string _outputPath;
-        string _language;
-
-        Dictionary<string, List<string>> classVariable;
-        
+        private Config config = ConfigManager.Instance.config;
 
         public MainWindow()
         {
             InitializeComponent();
         }
+        private void onLoaded(object sender, RoutedEventArgs e)
+        {
+            combo_outputLanguage.Text = "";
+        }
 
         private void Generate(object sender, RoutedEventArgs e)
         {
-            _filePath = txt_filePath.Text;
-            _outputPath = txt_outputPath.Text;
-            _language = combo_outputLanguage.SelectedItem.ToString();
+            config.filePath = txt_filePath.Text;
+            config.outputPath = txt_outputPath.Text;
+            config.fileType = Path.GetExtension(txt_filePath.Text);
+            config.language = combo_outputLanguage.Text;
+
             FileProcessing();
+        }
+        private void onlanguageChanged(object sender, EventArgs e)
+        {
+            config.language = combo_outputLanguage.Text;
+        }
+        private void onTextChanged_namespace(object sender, TextChangedEventArgs e)
+        {
+            config.classNamespace = txt_namespace.Text;
         }
 
         public void FileProcessing()
-        { 
-            // TODO determine the extension of the file
+        {
+            // TODO call ProcessFile and OutputFile;
+            ProcessFile pf = new ProcessFile();
+            pf.process();
 
-
-
+            OutputFile of = new OutputFile(pf.classVariable);
+            of.process();
         }
 
-
+        
     }
 }

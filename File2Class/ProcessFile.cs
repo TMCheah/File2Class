@@ -6,22 +6,20 @@ namespace File2Class
 {
     class ProcessFile
     {
-        string filePath { get; set; }
-        string fileType { get; set; }
+        public Dictionary<string, List<string>> classVariable { get; set; }
 
-        Dictionary<string, List<string>> classVariable;
+        private Config config = ConfigManager.Instance.config;
 
-        public ProcessFile(string path, string type)
+        public ProcessFile()
         {
-            filePath = path;
-            fileType = type;
+            classVariable = new Dictionary<string, List<string>>();
         }
 
         public void process()
         {
             bool processSuccess = false;
 
-            if (fileType.Equals("xml"))
+            if (config.fileType.Equals(".xml"))
                 processSuccess = processXML();
 
 
@@ -34,26 +32,29 @@ namespace File2Class
 
         public bool processXML()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(config.filePath))
             {
                 return false;
             }
 
-            string[] readFile = File.ReadAllLines(filePath);
+            string[] readFile = File.ReadAllLines(config.filePath);
 
             bool isXMLElementNext = false;
+            string className = "";
 
             foreach (string line in readFile)
             {
                 string[] splitLine = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
-                string className = "";
                 string rootClassName = "";
 
                 foreach (string sl in splitLine)
                 {
 
                     string variable = "";
+
+                    if (sl.StartsWith("<?") || sl.EndsWith("?>"))
+                        continue;
 
                     //closing of xml tag   //sl.StartsWith("</") || 
                     if (sl.Contains("</"))
@@ -73,13 +74,15 @@ namespace File2Class
                         //root here denote the parent of following element
                         if (isXMLElementNext)
                             rootClassName = className;
+                        else
+                            className = "";
                         
                         //remove the leading '<'
                         className = sl.Trim().Remove(0, 1);
 
                         //remove the trailing '>'
                         if (sl.Contains(">"))
-                            className = className.Remove(className.Length-1, 1);
+                            className = className.Remove(className.IndexOf('>'), className.Length- className.IndexOf('>'));
 
                         //remove namesapce
                         if (className.Contains(":"))
@@ -87,6 +90,9 @@ namespace File2Class
 
                         //make the first char of the class name uppercase
                         className = char.ToUpper(className[0]) + className.Substring(1);
+
+                        if(!classVariable.ContainsKey(className))
+                            classVariable.Add(className, new List<string>());
 
                         //insert the current class as element of root class
                         if (isXMLElementNext)
@@ -100,16 +106,17 @@ namespace File2Class
                     if (sl.Contains("="))
                     {
                         variable = sl.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries)[0].Trim();
-                        classVariable[className].Add(variable);
+                        if(!classVariable[className].Contains(variable))
+                            classVariable[className].Add(variable);
                     }
 
-                    if (!sl.EndsWith("/>") && sl.EndsWith(">"))
+                    if (!sl.EndsWith("/>") && sl.EndsWith(">") && !sl.StartsWith("<"))
                     {
                         // TODO handle XML Element for next line;
                         isXMLElementNext = true;
                     }
 
-                    if (sl.Equals("/>"))
+                    if (sl.Equals("/>") || sl.EndsWith("/>"))
                     {
                         // TODO handle />
 

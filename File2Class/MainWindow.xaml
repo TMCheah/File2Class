@@ -5,35 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:File2Class"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="400" ResizeMode="NoResize">
-    <Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="2*"/>
-			<ColumnDefinition Width="5*"/>
-			<ColumnDefinition Width="2*"/>
-		</Grid.ColumnDefinitions> 
-		<Grid.RowDefinitions>
-			<RowDefinition Height="1*"/>
-			<RowDefinition Height="1*"/>
-			<RowDefinition Height="1*"/>
-			<RowDefinition Height="1*"/>
-		</Grid.RowDefinitions>
+        Title="File2Class" Height="200" Width="400" ResizeMode="NoResize"
+        Loaded="onLoaded">
 
-		<TextBlock Grid.Row="0" Grid.Column="0" Text="File: " FontSize="15" Padding="5,0" Margin="2" VerticalAlignment="Center"/>
-		<TextBox Name="txt_filePath" Grid.Row="0" Grid.Column="1" Margin="8" Grid.ColumnSpan="2"/>
-		
-		<TextBlock Grid.Row="1" Grid.Column="0" Text="Output: " FontSize="15" Padding="5,0" Margin="2" VerticalAlignment="Center"/>
-		<TextBox Name="txt_outputPath" Grid.Row="1" Grid.Column="1" Margin="8" Grid.ColumnSpan="2"/>
+    <TabControl>
+        <TabItem Header="Setting">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
 
-		<TextBlock Grid.Row="2" Grid.Column="0" Text="Language: " FontSize="15" Padding="5,0" Margin="2" VerticalAlignment="Center" />
-		<ComboBox Name="combo_outputLanguage" Grid.Row="2" Grid.Column="1" Margin="8" Grid.ColumnSpan="2">
-			<ComboBoxItem IsSelected="True">C#</ComboBoxItem>	
-		</ComboBox>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="File: " FontSize="15" Padding="5,0" Margin="2" VerticalAlignment="Center"/>
+                <TextBox x:Name="txt_filePath" Grid.Row="0" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
 
-		<Button Name="btn_extract" Grid.Row="3" Grid.Column="3" Margin="10,5" Click="Generate">Extract</Button>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Output: " FontSize="15" Padding="5,0" Margin="2" VerticalAlignment="Center"/>
+                <TextBox x:Name="txt_outputPath" Grid.Row="1" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
 
-	</Grid>
-	
-	
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Language: " FontSize="15" Padding="5,0" Margin="2" VerticalAlignment="Center" />
+                <ComboBox x:Name="combo_outputLanguage" Grid.Row="2" Grid.Column="1" Margin="5" Grid.ColumnSpan="2" DropDownClosed="onlanguageChanged">
+                    <ComboBoxItem IsSelected="True">CSharp</ComboBoxItem>
+                    <ComboBoxItem >C++</ComboBoxItem>
+                </ComboBox>
+
+                <Button x:Name="btn_extract" Grid.Row="3" Grid.Column="3" Margin="10,5" Click="Generate">Extract</Button>
+
+            </Grid>
+        </TabItem>
+        
+        <TabItem Header="Advance">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Namespace: " Grid.Row="0" Grid.Column="0" FontSize="15" Padding="5,0" Margin="2" VerticalAlignment="Center"/>
+                <TextBox x:Name="txt_namespace" Grid.Row="0" Grid.Column="1" Margin="5" Grid.ColumnSpan="2" TextChanged="onTextChanged_namespace" />
+
+
+            </Grid>
+        </TabItem>
+        
+        
+    </TabControl>
 	
 </Window>
