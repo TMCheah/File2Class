@@ -123,7 +123,7 @@ namespace File2Class
                 }
 
                 //end 1 class; output file;
-                string fileName = kvp.Key;
+                string fileName = kvp.Key + ".cs";
 
                 if (File.Exists(Path.Combine(config.outputPath, fileName)))
                 {
