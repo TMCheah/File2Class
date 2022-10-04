@@ -110,7 +110,7 @@ namespace File2Class
                             classVariable[className].Add(variable);
                     }
 
-                    if (!sl.EndsWith("/>") && sl.EndsWith(">") && !sl.StartsWith("<"))
+                    if (!sl.EndsWith("/>") && sl.EndsWith(">"))//&& !sl.StartsWith("<"))
                     {
                         // TODO handle XML Element for next line;
                         isXMLElementNext = true;

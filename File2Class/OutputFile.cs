@@ -132,6 +132,9 @@ namespace File2Class
 
                 File.AppendAllText(Path.Combine(config.outputPath, fileName), sb.ToString());
 
+                sb.Clear();
+                indentCount = 0;
+
             }
 
             
