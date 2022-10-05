@@ -37,8 +37,8 @@ namespace File2Class
             foreach (KeyValuePair<string, List<string>> kvp in classVariable)
             {
                 //using library
-                if (config.fileType.Equals("xml"))
-                    sb.AppendLine("using System.Xml.Serialization");
+                if (config.fileType.Equals(".xml"))
+                    sb.AppendLine("using System.Xml.Serialization;");
 
                 sb.AppendLine();
 

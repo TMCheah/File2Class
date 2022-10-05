@@ -44,20 +44,19 @@ namespace File2Class
 
             foreach (string line in readFile)
             {
+                if (line.StartsWith("<?") || line.EndsWith("?>"))
+                    continue;
+
                 string[] splitLine = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
                 string rootClassName = "";
 
                 foreach (string sl in splitLine)
                 {
-
                     string variable = "";
 
-                    if (sl.StartsWith("<?") || sl.EndsWith("?>"))
-                        continue;
-
                     //closing of xml tag   //sl.StartsWith("</") || 
-                    if (sl.Contains("</"))
+                    if (sl.Trim().Contains("</"))
                     {
                         // TODO handle </
 
@@ -69,7 +68,7 @@ namespace File2Class
 
                     //beginning of the xml tag
                     //skip the version and namespace
-                    if (!sl.StartsWith("<?") && !sl.StartsWith("</") && sl.StartsWith("<"))
+                    if (!sl.Trim().StartsWith("<?") && !sl.Trim().StartsWith("</") && sl.Trim().StartsWith("<"))
                     {
                         //root here denote the parent of following element
                         if (isXMLElementNext)

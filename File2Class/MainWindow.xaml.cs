@@ -27,6 +27,7 @@ namespace File2Class
             config.outputPath = txt_outputPath.Text;
             config.fileType = Path.GetExtension(txt_filePath.Text);
             config.language = combo_outputLanguage.Text;
+            config.classNamespace = txt_namespace.Text;
 
             FileProcessing();
         }
