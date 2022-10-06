@@ -33,6 +33,8 @@ namespace File2Class
         {
             StringBuilder sb = new StringBuilder();
             int indentCount = 0;
+            int openTagCount = 0;
+            int closeTagCount = 0;
 
             foreach (KeyValuePair<string, List<string>> kvp in classVariable)
             {
